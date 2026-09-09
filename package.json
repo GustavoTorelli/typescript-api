@@ -2,10 +2,10 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --watch 'src/' --exec 'tsx src/index.ts' -e ts"
+    "start": "nodemon --watch 'src/' --exec 'tsx src/app.ts' -e ts"
   },
   "keywords": [],
   "type": "module",
