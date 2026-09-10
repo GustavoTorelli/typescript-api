@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { MongoClient as Mongo, Db } from "mongodb";
 
 export const MongoClient = {
@@ -5,17 +6,21 @@ export const MongoClient = {
   db: undefined as unknown as Db,
 
   async connect(): Promise<void> {
-    const url = process.env.MONGODB_URL || "mongodb://localhost:27017";
-    const username = process.env.MONGODB_USERNAME;
-    const password = process.env.MONGODB_PASSWORD;
+    const url = process.env.MONGODB_URL;
 
-    const client = new Mongo(url, { auth: { username, password } });
-    const db = client.db("users-db")
+    if (!url) {
+      throw new Error("MONGODB_URL não foi definida no .env");
+    }
+
+    const client = new Mongo(url);
+
+    await client.connect();
+
+    const db = client.db("users-db");
 
     this.client = client;
     this.db = db;
 
-    console.log("server  connected to mongodb!")
+    console.log("Server connected to MongoDB!");
   },
 };
-  
