@@ -1,37 +1,33 @@
 import express, { type Request, type Response } from "express";
-import {
-  GetUsersController,
-  CreateUserController,
-  UpdateUserController,
-  DeleteUserController,
-} from "../controllers/UserController.js";
-import { MongoCreateUserRepository } from "../repo/mongo-repo/users/mongo-create-users.js";
-import { MongoDeleteUserRepository } from "../repo/mongo-repo/users/mongo-delete-user.js";
-import { MongoGetUsersRepository } from "../repo/mongo-repo/users/mongo-get-users.js";
-import { MongoUpdateUserRepository } from "../repo/mongo-repo/users/mongo-update-user.js";
+import { GetUsersController } from "../controllers/users/get-users-controller.js";
+import { CreateUserController } from "../controllers/users/create-user-controller.js";
+import { UpdateUserController } from "../controllers/users/update-user-controller.js";
+import { DeleteUserController } from "../controllers/users/delete-user-controller.js";
+import { MongoCreateUserRepository } from "../repositories/mongodb/users/mongo-create-users.js";
+import { MongoDeleteUserRepository } from "../repositories/mongodb/users/mongo-delete-user.js";
+import { MongoGetUsersRepository } from "../repositories/mongodb/users/mongo-get-users.js";
+import { MongoUpdateUserRepository } from "../repositories/mongodb/users/mongo-update-user.js";
 
 const router = express.Router();
 
-
 // Get User Route
 router.get("", async (req: Request, res: Response) => {
-  const mongoGetUsersRepository = new MongoGetUsersRepository();
-  const getUsersController = new GetUsersController(mongoGetUsersRepository);
+  const repository = new MongoGetUsersRepository();
 
-  const { body, statusCode } = await getUsersController.handle();
+  const controller = new GetUsersController(repository);
+
+  const { body, statusCode } = await controller.handle();
 
   res.status(statusCode).send(body);
 });
 
 // Create  User Route
 router.post("", async (req: Request, res: Response) => {
-  const mongoCreateUserRepository = new MongoCreateUserRepository();
+  const repository = new MongoCreateUserRepository();
 
-  const createUserController = new CreateUserController(
-    mongoCreateUserRepository,
-  );
+  const controller = new CreateUserController(repository);
 
-  const { body, statusCode } = await createUserController.handle({
+  const { body, statusCode } = await controller.handle({
     body: req.body,
   });
 
@@ -40,13 +36,11 @@ router.post("", async (req: Request, res: Response) => {
 
 // Update User Route
 router.patch("/:id", async (req: Request, res: Response) => {
-  const mongoUpdateUserRepository = new MongoUpdateUserRepository();
+  const repository = new MongoUpdateUserRepository();
 
-  const updateUserController = new UpdateUserController(
-    mongoUpdateUserRepository,
-  );
+  const controller = new UpdateUserController(repository);
 
-  const { body, statusCode } = await updateUserController.handle({
+  const { body, statusCode } = await controller.handle({
     body: req.body,
     params: req.params,
   });
@@ -56,13 +50,11 @@ router.patch("/:id", async (req: Request, res: Response) => {
 
 // Delete User Route
 router.delete("/:id", async (req: Request, res: Response) => {
-  const mongoDeleteUserRepository = new MongoDeleteUserRepository();
+  const repository = new MongoDeleteUserRepository();
 
-  const deleteUserController = new DeleteUserController(
-    mongoDeleteUserRepository,
-  );
+  const controller = new DeleteUserController(repository);
 
-  const { body, statusCode } = await deleteUserController.handle({
+  const { body, statusCode } = await controller.handle({
     params: req.params,
   });
 
