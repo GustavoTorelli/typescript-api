@@ -1,34 +1,26 @@
 import type { User } from "../../models/user.js";
+import { badRequest, ok, serverError } from "../helpers.js";
 import type { HttpRequest, HttpResponse, IController } from "../protocols.js";
-import type {
-  IDeleteUserRepository,
-} from "./protocols.js";
+import type { IDeleteUserRepository } from "./protocols.js";
 
 export class DeleteUserController implements IController {
   constructor(private readonly deleteUserRepository: IDeleteUserRepository) {}
-  
-  async handle(httpRequest: HttpRequest<any>): Promise<HttpResponse<User>> {
+
+  async handle(
+    httpRequest: HttpRequest<any>,
+  ): Promise<HttpResponse<User | string>> {
     try {
       const id = httpRequest?.params?.id;
 
       if (!id) {
-        return {
-          statusCode: 400,
-          body: "Missing user id",
-        };
+        return badRequest("Missing user id");
       }
 
       const user = await this.deleteUserRepository.deleteUser(id);
-      return {
-        statusCode: 200,
-        body: user,
-      };
+      return ok<User>(user);
     } catch (error) {
       console.log(error);
-      return {
-        statusCode: 500,
-        body: "Something went wrong",
-      };
+      return serverError();
     }
   }
 }
