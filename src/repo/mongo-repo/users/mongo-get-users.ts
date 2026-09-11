@@ -1,6 +1,6 @@
-import type { IGetUsersRepository } from "../../controllers/get-users/protocols.js";
-import { MongoClient } from "../../database/mongo.js";
-import type { User } from "../../models/user.js";
+import { MongoClient } from "../../../database/mongo.js";
+import type { User } from "../../../models/user.js";
+import type { IGetUsersRepository } from "../../contracts/users/get-users.js";
 import type { MongoUser } from "../mongo-protocols.js";
 
 export class MongoGetUsersRepository implements IGetUsersRepository {

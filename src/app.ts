@@ -1,14 +1,16 @@
 import express, { type Express, type Request, type Response } from "express";
 import { config } from "dotenv";
-import { GetUsersController } from "./controllers/get-users/get-users.js";
-import { MongoGetUsersRepository } from "./repo/get-users/mongo-get-users.js";
 import { MongoClient } from "./database/mongo.js";
-import { MongoCreateUserRepository } from "./repo/create-users/mongo-create-users.js";
-import { CreateUserController } from "./controllers/create-users/create-users.js";
-import { MongoUpdateUserRepository } from "./repo/update-user/mongo-update-user.js";
-import { UpdateUserController } from "./controllers/update-user/update-user.js";
-import { MongoDeleteUserRepository } from "./repo/delete-user/mongo-delete-user.js";
-import { DeleteUserController } from "./controllers/delete-users/delete-users.js";
+import {
+  GetUsersController,
+  CreateUserController,
+  UpdateUserController,
+  DeleteUserController,
+} from "./controllers/UserController.js";
+import { MongoCreateUserRepository } from "./repo/mongo-repo/users/mongo-create-users.js";
+import { MongoDeleteUserRepository } from "./repo/mongo-repo/users/mongo-delete-user.js";
+import { MongoGetUsersRepository } from "./repo/mongo-repo/users/mongo-get-users.js";
+import { MongoUpdateUserRepository } from "./repo/mongo-repo/users/mongo-update-user.js";
 
 const main = async () => {
   config();

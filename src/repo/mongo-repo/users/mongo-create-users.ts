@@ -1,9 +1,9 @@
+import { MongoClient } from "../../../database/mongo.js";
+import type { User } from "../../../models/user.js";
 import type {
-  CreateUsersParams,
   ICreateUsersRepository,
-} from "../../controllers/create-users/protocols.js";
-import { MongoClient } from "../../database/mongo.js";
-import type { User } from "../../models/user.js";
+  CreateUsersParams,
+} from "../../contracts/users/create-users.js";
 import type { MongoUser } from "../mongo-protocols.js";
 
 export class MongoCreateUserRepository implements ICreateUsersRepository {
