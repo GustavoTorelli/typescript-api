@@ -5,6 +5,7 @@ import type {
   IUpdateUserRepository,
   UpdateUserParams,
 } from "../../controllers/update-user/protocols.js";
+import type { MongoUser } from "../mongo-protocols.js";
 
 export class MongoUpdateUserRepository implements IUpdateUserRepository {
   async updateUser(id: string, params: UpdateUserParams): Promise<User> {
@@ -18,7 +19,7 @@ export class MongoUpdateUserRepository implements IUpdateUserRepository {
     );
 
     const user = await MongoClient.db
-      .collection<Omit<User, "id">>("users")
+      .collection<MongoUser>("users")
       .findOne({ _id: new ObjectId(id) });
 
     if (!user) {
@@ -26,7 +27,7 @@ export class MongoUpdateUserRepository implements IUpdateUserRepository {
     }
 
     const { _id, ...rest } = user;
-    
+
     return { id: _id.toHexString(), ...rest };
   }
 }
