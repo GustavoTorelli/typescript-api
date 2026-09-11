@@ -2,11 +2,11 @@ import { ObjectId } from "mongodb";
 import { MongoClient } from "../../database/mongo.js";
 import type { User } from "../../models/user.js";
 import type {
-  IupdateUserRepository,
+  IUpdateUserRepository,
   UpdateUserParams,
 } from "../../controllers/update-user/protocols.js";
 
-export class MongoUpdateUserRepository implements IupdateUserRepository {
+export class MongoUpdateUserRepository implements IUpdateUserRepository {
   async updateUser(id: string, params: UpdateUserParams): Promise<User> {
     await MongoClient.db.collection("users").updateOne(
       { _id: new ObjectId(id) },
