@@ -1,11 +1,10 @@
 import type { User } from "../../models/user.js";
-import type { HttpRequest, HttpResponse } from "../protocols.js";
+import type { HttpRequest, HttpResponse, IController } from "../protocols.js";
 import type {
-  IDeleteUserController,
   IDeleteUserRepository,
 } from "./protocols.js";
 
-export class DeleteUserController implements IDeleteUserController {
+export class DeleteUserController implements IController {
   constructor(private readonly deleteUserRepository: IDeleteUserRepository) {}
   
   async handle(httpRequest: HttpRequest<any>): Promise<HttpResponse<User>> {
