@@ -8,7 +8,7 @@ export class DeleteUserController implements IController {
   constructor(private readonly deleteUserRepository: IDeleteUserRepository) {}
 
   async handle(
-    httpRequest: HttpRequest<any>,
+    httpRequest: HttpRequest<unknown>,
   ): Promise<HttpResponse<User | string>> {
     try {
       const id = httpRequest?.params?.id;

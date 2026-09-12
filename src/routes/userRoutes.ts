@@ -7,6 +7,8 @@ import { MongoCreateUserRepository } from "../repositories/mongodb/users/mongo-c
 import { MongoDeleteUserRepository } from "../repositories/mongodb/users/mongo-delete-user.js";
 import { MongoGetUsersRepository } from "../repositories/mongodb/users/mongo-get-users.js";
 import { MongoUpdateUserRepository } from "../repositories/mongodb/users/mongo-update-user.js";
+import { MongoGetUserByIdRepository } from "../repositories/mongodb/users/mongo-get-users-by-id.js";
+import { GetUserByIdController } from "../controllers/users/get-users-by-id.js";
 
 const router = express.Router();
 
@@ -17,6 +19,20 @@ router.get("", async (req: Request, res: Response) => {
   const controller = new GetUsersController(repository);
 
   const { body, statusCode } = await controller.handle();
+
+  res.status(statusCode).send(body);
+});
+
+// Get user by id route
+router.get("/:id", async (req: Request, res: Response) => {
+  const repository = new MongoGetUserByIdRepository();
+
+  const controller = new GetUserByIdController(repository);
+
+  const { body, statusCode } = await controller.handle({
+    body: req.body,
+    params: req.params,
+  });
 
   res.status(statusCode).send(body);
 });
