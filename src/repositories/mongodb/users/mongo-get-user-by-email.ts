@@ -1,18 +1,18 @@
-import { ObjectId } from "mongodb";
 import { MongoClient } from "../../../database/mongo.js";
 import type { User } from "../../../models/user.js";
-import type { IGetUserByIdRepository } from "../../contracts/users/get-user-by-id.js";
+import type { IGetUserByEmailRepository } from "../../contracts/users/get-user-by-email.js";
 import type { MongoUser } from "../mongo-protocols.js";
 
-export class MongoGetUserByIdRepository implements IGetUserByIdRepository {
-  async getUserById(id: string): Promise<User | null> {
+export class MongoGetUserByEmail implements IGetUserByEmailRepository {
+  async getUserByEmail(email: string): Promise<User | null> {
     const user = await MongoClient.db
       .collection<MongoUser>("users")
-      .findOne({ _id: new ObjectId(id) });
+      .findOne({ email });
 
     if (!user) {
       throw new Error("User not found");
     }
+
     const { _id, ...rest } = user;
 
     return { id: _id.toHexString(), ...rest };
