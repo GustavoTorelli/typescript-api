@@ -1,11 +1,10 @@
 import express, { type Request, type Response } from "express";
 import { MongoGetUserByEmailRepository } from "../repositories/mongodb/users/mongo-get-user-by-email.js";
 import { AuthController } from "../controllers/auth/auth-controller.js";
-import { ok } from "../controllers/helpers.js";
 
 const router = express.Router();
 
-router.post("", async (req: Request, res: Response) => {
+router.post("/login", async (req: Request, res: Response) => {
   const repository = new MongoGetUserByEmailRepository();
   const controller = new AuthController(repository);
 
@@ -26,7 +25,18 @@ router.post("", async (req: Request, res: Response) => {
     path: "/",
   });
 
-  return ok("Login!")
+  res.status(200).json({ message: "Login realizado!" });
+});
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("access_token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+  });
+
+  res.status(200).json({ message: "Logout!" });
 });
 
 export default router;
