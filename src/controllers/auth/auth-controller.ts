@@ -11,7 +11,7 @@ export class AuthController implements IController {
   ) {}
   async handle(
     httRequest: HttpRequest<AuthParams>,
-  ): Promise<HttpResponse<string>> {
+  ): Promise<HttpResponse<{ token: string } | string>> {
     try {
       const email = httRequest.body?.email;
       const password = httRequest.body?.password;
@@ -44,8 +44,7 @@ export class AuthController implements IController {
         algorithm: "HS256",
       });
 
-      return ok({ token });
-
+      return ok<{ token: string }>({ token });
     } catch (error) {
       console.error(error);
       return serverError();
