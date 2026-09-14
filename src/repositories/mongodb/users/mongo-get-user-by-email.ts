@@ -3,7 +3,7 @@ import type { User } from "../../../models/user.js";
 import type { IGetUserByEmailRepository } from "../../contracts/users/get-user-by-email.js";
 import type { MongoUser } from "../mongo-protocols.js";
 
-export class MongoGetUserByEmail implements IGetUserByEmailRepository {
+export class MongoGetUserByEmailRepository implements IGetUserByEmailRepository {
   async getUserByEmail(email: string): Promise<User | null> {
     const user = await MongoClient.db
       .collection<MongoUser>("users")
