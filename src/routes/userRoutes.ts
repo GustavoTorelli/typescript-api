@@ -9,8 +9,11 @@ import { MongoGetUsersRepository } from "../repositories/mongodb/users/mongo-get
 import { MongoUpdateUserRepository } from "../repositories/mongodb/users/mongo-update-user.js";
 import { MongoGetUserByIdRepository } from "../repositories/mongodb/users/mongo-get-users-by-id.js";
 import { GetUserByIdController } from "../controllers/users/get-users-by-id.js";
+// import { authenticate } from "../middlewares/authenticate.js";
 
 const router = express.Router();
+
+// router.use(authenticate);
 
 // Get User Route
 router.get("", async (req: Request, res: Response) => {
