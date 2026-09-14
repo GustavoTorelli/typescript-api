@@ -24,6 +24,7 @@
     "@eslint/json": "^2.1.0",
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.20.2",
     "dotenv": "^17.4.2",
     "eslint": "^10.10.0",

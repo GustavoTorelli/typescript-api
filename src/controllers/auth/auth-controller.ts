@@ -1,15 +1,16 @@
 import bcrypt from "bcrypt";
-import type { LoginParams } from "../../repositories/contracts/login/login.js";
+import jwt from "jsonwebtoken";
 import type { IGetUserByEmailRepository } from "../../repositories/contracts/users/get-user-by-email.js";
 import { badRequest, ok, serverError, unauthorized } from "../helpers.js";
 import type { HttpRequest, HttpResponse, IController } from "../protocols.js";
+import type { AuthParams } from "../../repositories/contracts/auth/auth.js";
 
-export class LoginController implements IController {
+export class AuthController implements IController {
   constructor(
     private readonly getUserByEmailRepository: IGetUserByEmailRepository,
   ) {}
   async handle(
-    httRequest: HttpRequest<LoginParams>,
+    httRequest: HttpRequest<AuthParams>,
   ): Promise<HttpResponse<string>> {
     try {
       const email = httRequest.body?.email;
@@ -31,7 +32,20 @@ export class LoginController implements IController {
         return unauthorized("Password is invalid!");
       }
 
-      return ok("Credentials ok!");
+      const secret = process.env.JWT_SECRET;
+
+      if (!secret) {
+        throw new Error("JWT_SECRET is not defined!");
+      }
+
+      const token = jwt.sign({}, secret, {
+        subject: user.id,
+        expiresIn: "5h",
+        algorithm: "HS256",
+      });
+
+      return ok({ token });
+
     } catch (error) {
       console.error(error);
       return serverError();
