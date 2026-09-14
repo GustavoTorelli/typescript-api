@@ -9,6 +9,7 @@ import { MongoGetUsersRepository } from "../repositories/mongodb/users/mongo-get
 import { MongoUpdateUserRepository } from "../repositories/mongodb/users/mongo-update-user.js";
 import { MongoGetUserByIdRepository } from "../repositories/mongodb/users/mongo-get-users-by-id.js";
 import { GetUserByIdController } from "../controllers/users/get-users-by-id.js";
+import { MongoGetUserByEmailRepository } from "../repositories/mongodb/users/mongo-get-user-by-email.js";
 // import { authenticate } from "../middlewares/authenticate.js";
 
 const router = express.Router();
@@ -42,9 +43,13 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 // Create  User Route
 router.post("", async (req: Request, res: Response) => {
-  const repository = new MongoCreateUserRepository();
+  const createUserRepository = new MongoCreateUserRepository();
+  const getUserByEmailRepository = new MongoGetUserByEmailRepository();
 
-  const controller = new CreateUserController(repository);
+  const controller = new CreateUserController(
+    createUserRepository,
+    getUserByEmailRepository,
+  );
 
   const { body, statusCode } = await controller.handle({
     body: req.body,

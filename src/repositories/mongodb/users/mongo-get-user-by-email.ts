@@ -10,7 +10,7 @@ export class MongoGetUserByEmailRepository implements IGetUserByEmailRepository 
       .findOne({ email });
 
     if (!user) {
-      throw new Error("User not found");
+      return null;
     }
 
     const { _id, ...rest } = user;

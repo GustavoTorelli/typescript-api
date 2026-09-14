@@ -18,6 +18,8 @@ export const MongoClient = {
 
     const db = client.db("users-db");
 
+    await db.collection("users").createIndex({ email: 1 }, { unique: true });
+
     this.client = client;
     this.db = db;
 

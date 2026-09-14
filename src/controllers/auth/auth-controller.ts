@@ -13,7 +13,7 @@ export class AuthController implements IController {
     httRequest: HttpRequest<AuthParams>,
   ): Promise<HttpResponse<{ token: string } | string>> {
     try {
-      const email = httRequest.body?.email;
+      const email = httRequest.body?.email?.toLowerCase().trim();
       const password = httRequest.body?.password;
 
       if (!email?.trim() || !password) {
