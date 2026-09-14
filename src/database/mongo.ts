@@ -9,7 +9,7 @@ export const MongoClient = {
     const url = process.env.MONGODB_URL;
 
     if (!url) {
-      throw new Error("MONGODB_URL não foi definida no .env");
+      throw new Error("MONGODB_URL is not defined!");
     }
 
     const client = new Mongo(url);
